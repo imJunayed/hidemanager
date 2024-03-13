@@ -107,7 +107,11 @@ class HMWP_Models_Compatibility_Others extends HMWP_Models_Compatibility_Abstrac
 					}
 				}
 
- 			}
+				//If there is a process that need to access the wp-admin
+				if (get_transient('hmwp_disable_hide_urls')) {
+					add_filter('hmwp_process_hide_urls', '__return_false');
+				}
+			}
 		}, 10
 		);
 	}
@@ -136,9 +140,38 @@ class HMWP_Models_Compatibility_Others extends HMWP_Models_Compatibility_Abstrac
 		}
 
         //Check if login recaptcha is loaded
-        add_filter('hmwp_option_brute_use_math', array($this, 'fix_recaptcha_loginform'));
-        add_filter('hmwp_option_brute_use_captcha', array($this, 'fix_recaptcha_loginform'));
-        add_filter('hmwp_option_brute_use_captcha_v3', array($this, 'fix_recaptcha_loginform'));
+        add_filter('hmwp_option_brute_use_math', function ($check){
+            global $hmwp_bruteforce;
+
+            //check if the shortcode was called
+            if(isset($hmwp_bruteforce) && $hmwp_bruteforce){
+                return true;
+            }
+
+            //check the brute force
+            if($check && !HMWP_Classes_Tools::getValue('brute_ck')){
+                if(isset($_SERVER['REQUEST_URI'])){
+                    $url = $_SERVER['REQUEST_URI'];
+                    if (HMWP_Classes_Tools::$default['hmwp_login_url'] <> HMWP_Classes_Tools::getOption('hmwp_login_url') ) {
+                        $paths= array();
+                        $paths[] = '/' . HMWP_Classes_Tools::$default['hmwp_login_url'];
+                        $paths[] = '/' . HMWP_Classes_Tools::getOption('hmwp_login_url');
+
+                        if( $post_id = get_option('woocommerce_myaccount_page_id')){
+                            if($post = get_post($post_id)) {
+                                $paths[] = '/' . $post->post_name;
+                            }
+                        }
+
+                        if (!HMWP_Classes_Tools::searchInString($url, $paths) ) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return $check;
+        });
 
 		//Compatibility with CDN Enabler - tested 01102021
 		if (HMWP_Classes_Tools::isPluginActive('cdn-enabler/cdn-enabler.php') ) {
@@ -237,40 +270,6 @@ class HMWP_Models_Compatibility_Others extends HMWP_Models_Compatibility_Abstrac
         }
 
 	}
-
-    public function fix_recaptcha_loginform($check) {
-        global $hmwp_bruteforce;
-
-        //check if the shortcode was called
-        if(isset($hmwp_bruteforce) && $hmwp_bruteforce){
-            return true;
-        }
-
-        //check the brute force
-        if($check && !HMWP_Classes_Tools::getValue('brute_ck')){
-            if(isset($_SERVER['REQUEST_URI'])){
-
-                $url = $_SERVER['REQUEST_URI'];
-                if (HMWP_Classes_Tools::$default['hmwp_login_url'] <> HMWP_Classes_Tools::getOption('hmwp_login_url') ) {
-                    $paths= array();
-                    $paths[] = '/' . HMWP_Classes_Tools::$default['hmwp_login_url'];
-                    $paths[] = '/' . HMWP_Classes_Tools::getOption('hmwp_login_url');
-
-                    if( $post_id = get_option('woocommerce_myaccount_page_id')){
-                        if($post = get_post($post_id)) {
-                            $paths[] = '/' . $post->post_name;
-                        }
-                    }
-
-                    if (!HMWP_Classes_Tools::searchInString($url, $paths) ) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return $check;
-    }
 
 	/**
 	 * Fix compatibility with WooGC plugin

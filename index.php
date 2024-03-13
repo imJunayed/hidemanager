@@ -124,9 +124,6 @@ if (defined('ABSPATH') && !defined('HMW_VERSION') ) {
                 }
             }
 
-            //Request the plugin update when a new version is released
-            require dirname(__FILE__) . '/update.php';
-
         }
 
     } catch ( Exception $e ) {

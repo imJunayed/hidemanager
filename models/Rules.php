@@ -611,19 +611,6 @@ class HMWP_Models_Rules
                 $rules .= 'autoindex off;' . PHP_EOL;
             }
 
-            if (HMWP_Classes_Tools::getOption('hmwp_security_header') ) {
-
-                $headers = (array)HMWP_Classes_Tools::getOption('hmwp_security_headers');
-
-                if(!empty($headers)) {
-                    foreach ($headers as $name => $value) {
-                        if ($value <> '') {
-                            $rules .= 'add_header ' . $name . ' "' . str_replace('"', '\"', $value) . '";' . PHP_EOL;
-                        }
-                    }
-                }
-            }
-
             if (HMWP_Classes_Tools::getOption('hmwp_detectors_block') ) {
                 $rules .= 'if ( $http_user_agent ~ \'wpthemedetector\' ) { return 404; }' . PHP_EOL;
                 $rules .= 'if ( $http_referer ~ \'wpthemedetector\' ) { return 404; }' . PHP_EOL;

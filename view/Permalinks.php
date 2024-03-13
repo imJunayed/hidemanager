@@ -819,56 +819,55 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 row py-4 border-bottom hmwp_hide_plugins_advanced" >
-                                <input type="hidden" class="form-control bg-input" name="hmw_plugins_mapping[]" value="" />
-                                <?php
-                                $plugins = (array)HMWP_Classes_Tools::getOption('hmw_plugins_mapping');
-                                $all_plugins =  (array)HMWP_Classes_Tools::getAllPlugins(); ?>
+                            <input type="hidden" class="form-control bg-input" name="hmw_plugins_mapping[]" value="" />
+                            <?php
+                            $plugins = (array)HMWP_Classes_Tools::getOption('hmw_plugins_mapping');
+                            $all_plugins =  HMWP_Classes_Tools::getAllPlugins(); ?>
 
-                                <?php if(!empty($plugins) && !empty($all_plugins)){ ?>
-                                    <div class="col-sm-12 m-0 p-0 hmw_plugins_mappings">
-                                    <?php foreach ( $plugins as $plugin => $value ) {
-                                        if($value == '') { continue;
-                                        }
-                                        ?>
-                                        <div class="col-sm-12 row pb-3 m-0 my-1 border-0">
-                                            <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
-                                            <div class="col-sm-4 p-0 my-2 font-weight-bold">
-                                                <?php echo rtrim(plugin_dir_path($plugin), '/') ?>
-                                            </div>
-                                            <div class="col-sm-8 p-0 input-group">
-                                                <input type="text" class="form-control bg-input" maxlength="32" name="hmw_plugins_mapping[<?php echo esc_attr($plugin)?>]" value="<?php echo esc_attr($value) ?>" />
-                                            </div>
-                                        </div>
-                                    <?php }?>
-                                </div>
-
-                                    <?php if(count($all_plugins) > (count($plugins) - 1)) { ?>
-                                    <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_plugins_mapping_select">
-
-                                        <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_plugins_mapping_new" style="display: none">
-                                            <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
-                                            <div class="col-sm-4 p-0 my-2 font-weight-bold hmw_plugins_mapping_title"></div>
-                                            <div class="col-sm-8 p-0 input-group"><input type="text" maxlength="32" class="form-control bg-input" /> </div>
-                                        </div>
-
-
+                            <div class="col-sm-12 m-0 p-0 hmw_plugins_mappings">
+                                <?php foreach ( $plugins as $plugin => $value ) {
+                                    if($value == '') { continue;
+                                    }
+                                    ?>
+                                    <div class="col-sm-12 row pb-3 m-0 my-1 border-0">
+                                        <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
                                         <div class="col-sm-4 p-0 my-2 font-weight-bold">
-                                            <?php echo esc_html__('Customize Plugin Names', 'hide-my-wp'); ?>
+                                            <?php echo rtrim(plugin_dir_path($plugin), '/') ?>
                                         </div>
                                         <div class="col-sm-8 p-0 input-group">
-                                            <select id="hmw_plugins_mapping_new" class=" form-control mb-1">
-                                                <option value=""></option>
-                                                <?php  foreach ($all_plugins as $plugin){
-                                                    if(!in_array($plugin, array_keys($plugins), true)) {
-                                                        echo '<option value="' . $plugin . '" >' . rtrim(plugin_dir_path($plugin), '/') . '</option>';
-                                                    }
-                                                }  ?>
-                                            </select>
+                                            <input type="text" class="form-control bg-input" maxlength="32" name="hmw_plugins_mapping[<?php echo esc_attr($plugin)?>]" value="<?php echo esc_attr($value) ?>" />
                                         </div>
                                     </div>
-                                <?php } ?>
                                 <?php }?>
                             </div>
+
+                            <?php if(count($all_plugins) > (count($plugins) - 1)) { ?>
+                                <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_plugins_mapping_select">
+
+                                    <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_plugins_mapping_new" style="display: none">
+                                        <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
+                                        <div class="col-sm-4 p-0 my-2 font-weight-bold hmw_plugins_mapping_title"></div>
+                                        <div class="col-sm-8 p-0 input-group"><input type="text" maxlength="32" class="form-control bg-input" /> </div>
+                                    </div>
+
+
+                                    <div class="col-sm-4 p-0 my-2 font-weight-bold">
+                                        <?php echo esc_html__('Customize Plugin Names', 'hide-my-wp'); ?>
+                                    </div>
+                                    <div class="col-sm-8 p-0 input-group">
+                                        <select id="hmw_plugins_mapping_new" class=" form-control mb-1">
+                                            <option value=""></option>
+                                            <?php  foreach ($all_plugins as $plugin){
+                                                if(!in_array($plugin, array_keys($plugins), true)) {
+                                                    echo '<option value="' . $plugin . '" >' . rtrim(plugin_dir_path($plugin), '/') . '</option>';
+                                                }
+                                            }  ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            <?php } ?>
+
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -941,62 +940,61 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 row py-4 border-bottom hmwp_hide_themes_advanced" >
-                                <input type="hidden" class="form-control bg-input" name="hmw_themes_mapping[]" value="" />
-                                <?php
-                                $themes = (array)HMWP_Classes_Tools::getOption('hmw_themes_mapping');
-                                $all_themes =  (array)HMWP_Classes_Tools::getAllThemes(); ?>
+                            <input type="hidden" class="form-control bg-input" name="hmw_themes_mapping[]" value="" />
+                            <?php
+                            $themes = (array)HMWP_Classes_Tools::getOption('hmw_themes_mapping');
+                            $all_themes =  HMWP_Classes_Tools::getAllThemes(); ?>
 
-                                <?php if(!empty($themes) && !empty($all_themes)){ ?>
-                                    <div class="col-sm-12 m-0 p-0 hmw_themes_mappings">
-                                        <?php foreach ( $themes as $theme => $value ) {
-                                            if($value == '') { continue;
-                                            }
-                                            ?>
-                                            <div class="col-sm-12 row pb-3 m-0 my-1 border-0">
-                                                <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
-                                                <div class="col-sm-4 p-0 my-2 font-weight-bold">
-                                                    <?php echo esc_html($theme) ?>
-                                                </div>
-                                                <div class="col-sm-8 p-0 input-group">
-                                                    <input type="text" class="form-control bg-input" maxlength="32" name="hmw_themes_mapping[<?php echo esc_attr($theme)?>]" value="<?php echo esc_attr($value) ?>" />
-                                                </div>
-                                            </div>
-                                        <?php }?>
-                                    </div>
-
-                                    <?php if(count($all_themes) > (count($themes) - 1)) { ?>
-                                    <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_themes_mapping_select">
-
-                                        <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_themes_mapping_new" style="display: none">
-                                            <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
-                                            <div class="col-sm-4 p-0 my-2 font-weight-bold hmw_themes_mapping_title"></div>
-                                            <div class="col-sm-8 p-0 input-group"><input type="text" maxlength="32" class="form-control bg-input" /> </div>
-                                        </div>
-
-
+                            <div class="col-sm-12 m-0 p-0 hmw_themes_mappings">
+                                <?php foreach ( $themes as $theme => $value ) {
+                                    if($value == '') { continue;
+                                    }
+                                    ?>
+                                    <div class="col-sm-12 row pb-3 m-0 my-1 border-0">
+                                        <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
                                         <div class="col-sm-4 p-0 my-2 font-weight-bold">
-                                            <?php echo esc_html__('Customize Theme Names', 'hide-my-wp'); ?>
+                                            <?php echo esc_html($theme) ?>
                                         </div>
                                         <div class="col-sm-8 p-0 input-group">
-                                            <select id="hmw_themes_mapping_new" class=" form-control mb-1">
-                                                <option value=""></option>
-                                                <?php
-                                                //Initialize WordPress Filesystem
-                                                $wp_filesystem = HMWP_Classes_ObjController::initFilesystem();
-
-                                                foreach ($all_themes as $theme => $value){
-                                                    if ($wp_filesystem->is_dir($value['theme_root']) ) {
-                                                        if (!in_array($theme, array_keys($themes), true)) {
-                                                            echo '<option value="' . $theme . '" >' . $theme . '</option>';
-                                                        }
-                                                    }
-                                                }  ?>
-                                            </select>
+                                            <input type="text" class="form-control bg-input" maxlength="32" name="hmw_themes_mapping[<?php echo esc_attr($theme)?>]" value="<?php echo esc_attr($value) ?>" />
                                         </div>
                                     </div>
-                                <?php } ?>
                                 <?php }?>
                             </div>
+
+                            <?php if(count($all_themes) > (count($themes) - 1)) { ?>
+                                <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_themes_mapping_select">
+
+                                    <div class="col-sm-12 row pb-3 m-0 my-1 border-0 hmw_themes_mapping_new" style="display: none">
+                                        <div class="hmwp_mapping_remove" onclick="jQuery(this).parent().remove()" title="<?php echo esc_html__('Remove') ?>">x</div>
+                                        <div class="col-sm-4 p-0 my-2 font-weight-bold hmw_themes_mapping_title"></div>
+                                        <div class="col-sm-8 p-0 input-group"><input type="text" maxlength="32" class="form-control bg-input" /> </div>
+                                    </div>
+
+
+                                    <div class="col-sm-4 p-0 my-2 font-weight-bold">
+                                        <?php echo esc_html__('Customize Theme Names', 'hide-my-wp'); ?>
+                                    </div>
+                                    <div class="col-sm-8 p-0 input-group">
+                                        <select id="hmw_themes_mapping_new" class=" form-control mb-1">
+                                            <option value=""></option>
+                                            <?php
+                                            //Initialize WordPress Filesystem
+                                            $wp_filesystem = HMWP_Classes_ObjController::initFilesystem();
+
+                                            foreach ($all_themes as $theme => $value){
+                                                if ($wp_filesystem->is_dir($value['theme_root']) ) {
+                                                    if (!in_array($theme, array_keys($themes), true)) {
+                                                        echo '<option value="' . $theme . '" >' . $theme . '</option>';
+                                                    }
+                                                }
+                                            }  ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            <?php } ?>
+
+                        </div>
                         </div>
                     </div>
                 </div>
